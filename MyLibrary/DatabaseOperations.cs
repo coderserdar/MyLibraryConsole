@@ -1,5 +1,4 @@
 using Microsoft.Data.Sqlite;
-using System;
 
 public class DatabaseOperations
 {
@@ -25,7 +24,12 @@ public class DatabaseOperations
         sqlite_cmd = sqlite_conn.CreateCommand();
         sqlite_cmd.CommandText = "SELECT * FROM Book";
 
-        Console.WriteLine("|ID\t|Book Name\t\t\t|Book Category\t\t|Book Writer\t\t\t|Book Description\t\t|Is Book Active\t\t|Is Book Read");
+        string dashes = string.Concat(Enumerable.Repeat("-", 166));
+        Console.WriteLine(dashes);
+        string top = "|ID\t|Book Name\t\t\t|Book Category\t\t|Book Writer\t\t\t|Book Description\t\t|Is Book Active\t\t|Is Book Read|";
+        Console.WriteLine(top);
+        Console.WriteLine(dashes);
+
         sqlite_datareader = sqlite_cmd.ExecuteReader();
         while (sqlite_datareader.Read())
         {
@@ -38,7 +42,8 @@ public class DatabaseOperations
             int readUnread = (int)Convert.ToInt64(sqlite_datareader["ReadUnread"]);
 
             Console.WriteLine($"|{bookId,-7}" + $"|{LimitLength(bookName, 25),-31}" + $"|{LimitLength(bookCategory, 18),-23}" +
-            $"|{LimitLength(writer, 26),-31}" + $"|{LimitLength(bookDescription, 16),-31}" + $"|{activeStatus,-23}" + $"|{readUnread,-5}");
+            $"|{LimitLength(writer, 26),-31}" + $"|{LimitLength(bookDescription, 16),-31}" + $"|{activeStatus,-23}" + $"|{readUnread,-12}|");
+            Console.WriteLine(dashes);
         }
     }
 
@@ -77,6 +82,11 @@ public class DatabaseOperations
         {
             Console.WriteLine($"Error: {e.Message}");
         }
+    }
+
+    public void UpdateData()
+    {
+
     }
 
     public void CloseConnection()

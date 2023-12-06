@@ -1,12 +1,9 @@
 ﻿using System;
-using System.Linq;
-using Microsoft.Data.Sqlite;
-
 #pragma warning disable CS8600 // Converting null literal or possible null value to non-nullable type.
 #pragma warning disable CS8602 // Dereference of a possibly null reference.
 #pragma warning disable CS8601 // Possible null reference assignment.
 
-
+//Connection to the database
 DatabaseOperations our_database = new();
 int status = 6;
 
