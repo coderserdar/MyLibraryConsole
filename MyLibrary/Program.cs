@@ -2,6 +2,10 @@
 using System.Linq;
 using Microsoft.Data.Sqlite;
 
+#pragma warning disable CS8600 // Converting null literal or possible null value to non-nullable type.
+#pragma warning disable CS8602 // Dereference of a possibly null reference.
+#pragma warning disable CS8601 // Possible null reference assignment.
+
 
 DatabaseOperations our_database = new();
 int status = 5;
@@ -29,17 +33,15 @@ while (status != 0)
             continue;
         case 2:
             Console.WriteLine("Please enter name of the new book.");
-#pragma warning disable CS8600 // Converting null literal or possible null value to non-nullable type.
             string bookName = Console.ReadLine();
             Console.WriteLine("Please enter category of the new book.");
             string bookCategory = Console.ReadLine();
             Console.WriteLine("Please enter writers name.");
             string writer = Console.ReadLine();
-
-            Console.WriteLine("Has book been read?");
+            Console.WriteLine("Has book been read? Yes or No.");
             string answer = Console.ReadLine();
             int isBookRead;
-            if (answer == "yes")
+            if (answer.ToLower() == "yes")
             {
                 isBookRead = 1;
             }
@@ -47,7 +49,8 @@ while (status != 0)
             {
                 isBookRead = 0;
             }
-            Book newBook = new Book
+
+            Book newBook = new()
             {
                 BookName = bookName,
                 BookCategory = bookCategory,
@@ -57,7 +60,7 @@ while (status != 0)
 
             Console.WriteLine("Do you want to add description for the book?");
             answer = Console.ReadLine();
-            if (answer == "yes")
+            if (answer.ToLower() == "yes")
             {
                 Console.WriteLine("Please enter description.");
                 string bookDescription = Console.ReadLine();

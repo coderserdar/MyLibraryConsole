@@ -26,16 +26,19 @@ public class DatabaseOperations
         sqlite_cmd.CommandText = "SELECT * FROM Book";
 
         sqlite_datareader = sqlite_cmd.ExecuteReader();
-        Console.WriteLine("|ID\t|Book Name\t|Book Category\t|Book Writer\t\t|Book Description\t|Is Book Active\t\t|Is Book Read");
+        Console.WriteLine("|ID\t|Book Name\t\t\t|Book Category\t\t|Book Writer\t\t\t|Book Description\t\t|Is Book Active\t\t|Is Book Read");
         while (sqlite_datareader.Read())
         {
-            Console.WriteLine("|" + sqlite_datareader["Id"] +
-            "\t|" + sqlite_datareader["BookName"] +
-            "\t\t|" + sqlite_datareader["BookCategory"] +
-            "\t\t|" + sqlite_datareader["Writer"] +
-            "\t\t\t|" + sqlite_datareader["BookDescription"] +
-            "\t\t\t|" + sqlite_datareader["ActiveStatus"] +
-            "\t\t\t|" + sqlite_datareader["ReadUnread"]);
+            int bookId = (int)Convert.ToInt64(sqlite_datareader["Id"]);
+            string bookName = (string)sqlite_datareader["BookName"];
+            string bookCategory = (string)sqlite_datareader["BookCategory"];
+            string writer = (string)sqlite_datareader["Writer"];
+            string bookDescription = sqlite_datareader["BookDescription"] != null ? "" : (string)sqlite_datareader["BookDescription"];
+            int activeStatus = sqlite_datareader["ActiveStatus"] != null ? 0 : (int)Convert.ToInt64(sqlite_datareader["ActiveStatus"]);
+            int readUnread = (int)Convert.ToInt64(sqlite_datareader["ReadUnread"]);
+
+            Console.WriteLine($"|{bookId,-7}" + $"|{LimitLength(bookName, 25),-31}" + $"|{LimitLength(bookCategory, 18),-23}" +
+            $"|{LimitLength(writer, 26),-31}" + $"|{LimitLength(bookDescription, 16),-31}" + $"|{activeStatus,-23}" + $"|{readUnread,-5}");
         }
     }
 
@@ -79,4 +82,12 @@ public class DatabaseOperations
         Console.WriteLine("Connection has been closed.");
     }
 
+    public static string LimitLength(string source, int maxLength)
+    {
+        if (source.Length <= maxLength)
+        {
+            return source;
+        }
+        return source.Substring(0, maxLength);
+    }
 }
