@@ -10,7 +10,7 @@ public class DatabaseOperations
         try
         {
             sqlite_conn.Open();
-            Console.WriteLine("Connected to SQLite!");
+            Console.WriteLine("Connected to SQLite!\n");
         }
         catch (Exception ex)
         {
@@ -25,8 +25,8 @@ public class DatabaseOperations
         sqlite_cmd = sqlite_conn.CreateCommand();
         sqlite_cmd.CommandText = "SELECT * FROM Book";
 
-        sqlite_datareader = sqlite_cmd.ExecuteReader();
         Console.WriteLine("|ID\t|Book Name\t\t\t|Book Category\t\t|Book Writer\t\t\t|Book Description\t\t|Is Book Active\t\t|Is Book Read");
+        sqlite_datareader = sqlite_cmd.ExecuteReader();
         while (sqlite_datareader.Read())
         {
             int bookId = (int)Convert.ToInt64(sqlite_datareader["Id"]);
@@ -44,12 +44,14 @@ public class DatabaseOperations
 
     public void InsertData(Book newBook)
     {
-        string insertSql = "INSERT INTO Book (BookName, BookCategory, Writer, ReadUnread) VALUES (@BookName, @BookCategory, @Writer, @ReadUnread)";
+        string insertSql = "INSERT INTO Book (BookName, BookCategory, Writer, BookDescription, ReadUnread) VALUES (@BookName, @BookCategory, @Writer, @BookDescription, @ReadUnread)";
         SqliteCommand insertCommand = new SqliteCommand(insertSql, sqlite_conn);
         insertCommand.Parameters.AddWithValue("@BookName", newBook.BookName);
         insertCommand.Parameters.AddWithValue("@BookCategory", newBook.BookCategory);
         insertCommand.Parameters.AddWithValue("@Writer", newBook.Writer);
+        insertCommand.Parameters.AddWithValue("@BookDescription", newBook.BookDescription);
         insertCommand.Parameters.AddWithValue("@ReadUnread", newBook.ReadUnread);
+
         try
         {
             insertCommand.ExecuteNonQuery();
@@ -65,6 +67,7 @@ public class DatabaseOperations
     {
         string deleteSql = $"DELETE FROM Book WHERE Id = {idNumber}";
         SqliteCommand deleteCommand = new SqliteCommand(deleteSql, sqlite_conn);
+
         try
         {
             deleteCommand.ExecuteNonQuery();
