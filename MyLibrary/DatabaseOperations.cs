@@ -58,6 +58,21 @@ public class DatabaseOperations
         }
     }
 
+    public void DeleteRow(int idNumber)
+    {
+        string deleteSql = $"DELETE FROM Book WHERE Id = {idNumber}";
+        SqliteCommand deleteCommand = new SqliteCommand(deleteSql, sqlite_conn);
+        try
+        {
+            deleteCommand.ExecuteNonQuery();
+            Console.WriteLine($"{idNumber}. id has been deleted.");
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine($"Error: {e.Message}");
+        }
+    }
+
     public void CloseConnection()
     {
         sqlite_conn.Close();

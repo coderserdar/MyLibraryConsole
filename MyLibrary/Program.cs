@@ -14,10 +14,6 @@ Console.WriteLine("Possible Actions:\n" +
     "Update data from database: 3\n" +
     "Delete data from database: 4");
 
-
-//Console.WriteLine(newBook.BookName);
-
-
 while (status != 0)
 {
     Console.WriteLine("Please enter preferred action. 0 for exit.");
@@ -72,6 +68,9 @@ while (status != 0)
         case 3:
             continue;
         case 4:
+            Console.WriteLine("Please enter the id that you want to delete.");
+            int prefferedId = Convert.ToInt32(Console.ReadLine());
+            our_database.DeleteRow(prefferedId);
             continue;
     }
 }
