@@ -26,17 +26,42 @@ public class DatabaseOperations
         sqlite_cmd.CommandText = "SELECT * FROM Book";
 
         sqlite_datareader = sqlite_cmd.ExecuteReader();
+        Console.WriteLine("|ID\t|Book Name\t|Book Category\t|Book Writer\t\t|Book Description\t|Is Book Active\t\t|Is Book Read");
         while (sqlite_datareader.Read())
         {
-            Console.WriteLine("ID: \t\t\t" + sqlite_datareader["Id"] +
-            "\nBook Name: \t\t" + sqlite_datareader["BookName"] +
-            "\nBook Category: \t\t" + sqlite_datareader["BookCategory"] +
-            "\nBook Writer: \t\t" + sqlite_datareader["Writer"] +
-            "\nBook Description: \t" + sqlite_datareader["BookDescription"] +
-            "\nIs Book Active: \t" + sqlite_datareader["ActiveStatus"] +
-            "\nIs Book Read: \t\t" + sqlite_datareader["ReadUnread"]);
+            Console.WriteLine("|" + sqlite_datareader["Id"] +
+            "\t|" + sqlite_datareader["BookName"] +
+            "\t\t|" + sqlite_datareader["BookCategory"] +
+            "\t\t|" + sqlite_datareader["Writer"] +
+            "\t\t\t|" + sqlite_datareader["BookDescription"] +
+            "\t\t\t|" + sqlite_datareader["ActiveStatus"] +
+            "\t\t\t|" + sqlite_datareader["ReadUnread"]);
         }
+    }
+
+    public void InsertData(Book newBook)
+    {
+        string insertSql = "INSERT INTO Book (BookName, BookCategory, Writer, ReadUnread) VALUES (@BookName, @BookCategory, @Writer, @ReadUnread)";
+        SqliteCommand insertCommand = new SqliteCommand(insertSql, sqlite_conn);
+        insertCommand.Parameters.AddWithValue("@BookName", newBook.BookName);
+        insertCommand.Parameters.AddWithValue("@BookCategory", newBook.BookCategory);
+        insertCommand.Parameters.AddWithValue("@Writer", newBook.Writer);
+        insertCommand.Parameters.AddWithValue("@ReadUnread", newBook.ReadUnread);
+        try
+        {
+            insertCommand.ExecuteNonQuery();
+            Console.WriteLine("Data inserted.");
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine($"Error: {e.Message}");
+        }
+    }
+
+    public void CloseConnection()
+    {
         sqlite_conn.Close();
+        Console.WriteLine("Connection has been closed.");
     }
 
 }
