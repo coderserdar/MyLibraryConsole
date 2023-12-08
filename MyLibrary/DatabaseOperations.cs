@@ -1,5 +1,8 @@
 using Microsoft.Data.Sqlite;
 
+#pragma warning disable CS8602 // Dereference of a possibly null reference.
+#pragma warning disable CS8603 // Possible null reference return.
+
 public class DatabaseOperations
 {
     public SqliteConnection sqlite_conn = new("Data Source=Data/Book.db;");
@@ -84,9 +87,20 @@ public class DatabaseOperations
         }
     }
 
-    public void UpdateData()
+    public void UpdateData(int selectedId, string columnName, string updatedData)
     {
+        string updateSql = $"UPDATE Book SET {columnName} = '{updatedData}' WHERE Id = {selectedId}";
+        SqliteCommand updateCommand = new SqliteCommand(updateSql, sqlite_conn);
 
+        try
+        {
+            updateCommand.ExecuteNonQuery();
+            Console.WriteLine("Data successfully updated.");
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine($"Error: {e.Message}");
+        }
     }
 
     public void CloseConnection()
@@ -102,5 +116,12 @@ public class DatabaseOperations
             return source;
         }
         return source.Substring(0, maxLength);
+    }
+
+    public string CheckIdAvailable(int selecId)
+    {
+        string controlIdSql = $"SELECT EXISTS (SELECT 1 FROM Book WHERE Id = {selecId})";
+        SqliteCommand controlIdCommand = new SqliteCommand(controlIdSql, sqlite_conn);
+        return controlIdCommand.ExecuteScalar().ToString();
     }
 }
