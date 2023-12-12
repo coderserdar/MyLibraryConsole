@@ -8,7 +8,6 @@ using System.Drawing;
 
 //Connection to the database
 DatabaseOperations our_database = new();
-int status = 6;
 
 Console.WriteLine("Welcome to the App\n");
 
