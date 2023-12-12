@@ -19,7 +19,7 @@ Console.WriteLine("Possible Actions:\n" +
                   "Delete data from database: 4\n");
 
 var result = -1;
-while (status != 0)
+while (result != 0)
 {
     Console.WriteLine("Please enter preferred action. 0 for exit. 5 for help.");
     var text = Console.ReadLine();
@@ -33,7 +33,7 @@ while (status != 0)
         Console.WriteLine("That is not a valid number. Try again");
     else
     {
-        switch (status)
+        switch (result)
         {
             case 0:
                 our_database.CloseConnection();
