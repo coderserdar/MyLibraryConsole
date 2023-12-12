@@ -44,6 +44,8 @@ while (status != 0)
                 continue;
 
             case 2:
+         
+                #region Add Book
                 Console.WriteLine("Please enter name of the new book.");
                 string bookName = Console.ReadLine();
 
@@ -93,8 +95,11 @@ while (status != 0)
 
                 our_database.InsertData(newBook);
                 continue;
+                #endregion
 
             case 3:
+
+                #region Update Book
                 Console.WriteLine("Please enter ID that you want to update.");
                 int selectedId = Convert.ToInt32(Console.ReadLine());
 
@@ -161,20 +166,27 @@ while (status != 0)
                 }
 
                 continue;
+                #endregion
 
             case 4:
+
+                #region Delete Operation
                 Console.WriteLine("Please enter the id that you want to delete.");
                 int prefferedId = Convert.ToInt32(Console.ReadLine());
                 our_database.DeleteRow(prefferedId);
                 continue;
+                #endregion
 
             case 5:
+                
+                #region Help Menu
                 Console.WriteLine("Possible Actions:\n" +
                                   "List all data from database: 1\n" +
                                   "Insert data to database: 2\n" +
                                   "Update data from database: 3\n" +
                                   "Delete data from database: 4\n");
                 continue;
+                #endregion
         }
     }
 }
