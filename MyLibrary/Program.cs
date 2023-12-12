@@ -29,7 +29,7 @@ while (status != 0)
         Console.WriteLine("That is not a valid number. Program will be terminated");
         break;
     }
-    else if (isNumber && (result < 1 || result >= 6))
+    else if (isNumber && (result < 0 || result >= 6))
         Console.WriteLine("That is not a valid number. Try again");
     else
     {
