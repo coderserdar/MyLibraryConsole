@@ -124,4 +124,31 @@ public class DatabaseOperations
         SqliteCommand controlIdCommand = new SqliteCommand(controlIdSql, sqlite_conn);
         return controlIdCommand.ExecuteScalar().ToString();
     }
+
+    public bool CheckNameWriterAvailable(string isName, string writerName)
+    {
+        SqliteCommand controlNameCommand = new("SELECT BookName, Writer from Book", sqlite_conn);
+        SqliteDataReader reader = controlNameCommand.ExecuteReader();
+
+        if (reader.HasRows)
+        {
+            while (reader.Read())
+            {
+                if (isName.ToLower() == reader[0].ToString().ToLower())
+                {
+                    if (writerName.ToLower() == reader[1].ToString().ToLower())
+                    {
+                        return false;
+                    }
+                }
+            }
+        }
+        else
+        {
+            Console.WriteLine("No rows found.");
+        }
+
+        reader.Close();
+        return true;
+    }
 }

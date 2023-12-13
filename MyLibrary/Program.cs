@@ -71,68 +71,7 @@ while (result != 0)
             case 3:
 
                 #region Update Book
-                Console.WriteLine("Please enter ID that you want to update.");
-                int selectedId = Convert.ToInt32(Console.ReadLine());
-
-                if (Int32.Parse(our_database.CheckIdAvailable(selectedId)) == 1)
-                {
-                    Console.WriteLine(
-                        $"You have selected {selectedId}. Which column you want to update? Please write corresponding number.");
-                    Console.WriteLine(
-                        "Book Name: 1\nBook Category: 2\nBook Writer: 3\nBook Description: 4\nIs Book Active: 5\nIs Book Read: 6\nTo Cancel: 7\n");
-
-                    var columnInput = Console.ReadLine();
-                    var whichColumnChange = -1;
-                    var isNumberColumn = Int32.TryParse(columnInput, out whichColumnChange);
-
-                    if (!isNumberColumn)
-                    {
-                        Console.WriteLine("That is not a valid number. Program will be terminated.");
-                        break;
-                    }
-                    else if (isNumberColumn && (whichColumnChange <= 0 || whichColumnChange >= 7))
-                    {
-                        Console.WriteLine("That is not a valid number. Try again.");
-                    }
-                    else
-                    {
-                        Console.WriteLine("Please write new value:");
-                        string newValue = Console.ReadLine();
-
-                        switch (whichColumnChange)
-                        {
-                            case 1:
-                                our_database.UpdateData(selectedId, "BookName", newValue);
-                                break;
-
-                            case 2:
-                                our_database.UpdateData(selectedId, "BookCategory", newValue);
-                                break;
-
-                            case 3:
-                                our_database.UpdateData(selectedId, "Writer", newValue);
-                                break;
-
-                            case 4:
-                                our_database.UpdateData(selectedId, "BookDescription", newValue);
-                                break;
-
-                            case 5:
-                                our_database.UpdateData(selectedId, "ActiveStatus", newValue);
-                                break;
-
-                            case 6:
-                                our_database.UpdateData(selectedId, "ReadUnread", newValue);
-                                break;
-                        }
-                    }
-
-                }
-                else
-                {
-                    Console.WriteLine($"{selectedId} Id is not available.\n");
-                    break;
-                }
+                UpdateBook();
 
                 continue;
             #endregion
@@ -160,39 +99,119 @@ while (result != 0)
     }
 }
 
-static void NewBook(ref string bookName, ref string bookCategory, ref string writer, ref int isBookRead, ref string bookDescription)
+void NewBook(ref string bookName, ref string bookCategory, ref string writer, ref int isBookRead, ref string bookDescription)
 {
-    Console.WriteLine("Please enter name of the new book.");
-    bookName = Console.ReadLine();
-
-    Console.WriteLine("Please enter category of the new book.");
-    bookCategory = Console.ReadLine();
-
-    Console.WriteLine("Please enter writers name.");
-    writer = Console.ReadLine();
-
-    Console.WriteLine("Has book been read? Yes or No.");
-    string answer = Console.ReadLine();
-
-    if (answer.ToLower() == "yes")
+    while (true)
     {
-        isBookRead = 1;
+        Console.WriteLine("Please enter name of the new book.");
+        bookName = Console.ReadLine();
+
+        Console.WriteLine("Please enter writers name.");
+        writer = Console.ReadLine();
+
+        if (our_database.CheckNameWriterAvailable(bookName, writer) == false)
+        {
+            Console.WriteLine("This book is already on the database. Please try again.");
+            continue;
+        }
+
+        Console.WriteLine("Please enter category of the new book.");
+        bookCategory = Console.ReadLine();
+
+        Console.WriteLine("Has book been read? Yes or No.");
+        string answer = Console.ReadLine();
+
+        if (answer.ToLower() == "yes")
+        {
+            isBookRead = 1;
+        }
+        else
+        {
+            isBookRead = 0;
+        }
+
+        Console.WriteLine("Do you want to add description for the book?");
+        answer = Console.ReadLine();
+
+        if (answer.ToLower() == "yes")
+        {
+            Console.WriteLine("Please enter description.");
+            bookDescription = Console.ReadLine();
+        }
+        else
+        {
+            bookDescription = "";
+        }
+        break;
+    }
+}
+
+void UpdateBook()
+{
+    Console.WriteLine("Please enter ID that you want to update.");
+    int selectedId = Convert.ToInt32(Console.ReadLine());
+
+    if (Int32.Parse(our_database.CheckIdAvailable(selectedId)) == 1)
+    {
+        while (true)
+        {
+
+            Console.WriteLine(
+                $"You have selected {selectedId}. Which column you want to update? Please write corresponding number.");
+            Console.WriteLine(
+                "Book Name: 1\nBook Category: 2\nBook Writer: 3\nBook Description: 4\nIs Book Active: 5\nIs Book Read: 6\nTo Cancel: 7\n");
+
+            var columnInput = Console.ReadLine();
+            var whichColumnChange = -1;
+            var isNumberColumn = Int32.TryParse(columnInput, out whichColumnChange);
+
+            if (!isNumberColumn)
+            {
+                Console.WriteLine("That is not a valid number. Program will be terminated.");
+                break;
+            }
+            else if (isNumberColumn && (whichColumnChange <= 0 || whichColumnChange >= 7))
+            {
+                Console.WriteLine("That is not a valid number. Try again.");
+                break;
+            }
+            else
+            {
+                Console.WriteLine("Please write new value:");
+                string newValue = Console.ReadLine();
+
+                switch (whichColumnChange)
+                {
+                    case 1:
+                        our_database.UpdateData(selectedId, "BookName", newValue);
+                        break;
+
+                    case 2:
+                        our_database.UpdateData(selectedId, "BookCategory", newValue);
+                        break;
+
+                    case 3:
+                        our_database.UpdateData(selectedId, "Writer", newValue);
+                        break;
+
+                    case 4:
+                        our_database.UpdateData(selectedId, "BookDescription", newValue);
+                        break;
+
+                    case 5:
+                        our_database.UpdateData(selectedId, "ActiveStatus", newValue);
+                        break;
+
+                    case 6:
+                        our_database.UpdateData(selectedId, "ReadUnread", newValue);
+                        break;
+                }
+                break;
+            }
+        }
     }
     else
     {
-        isBookRead = 0;
-    }
-
-    Console.WriteLine("Do you want to add description for the book?");
-    answer = Console.ReadLine();
-
-    if (answer.ToLower() == "yes")
-    {
-        Console.WriteLine("Please enter description.");
-        bookDescription = Console.ReadLine();
-    }
-    else
-    {
-        bookDescription = "";
+        Console.WriteLine($"{selectedId} Id is not available.\n");
     }
 }
