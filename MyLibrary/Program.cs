@@ -155,7 +155,6 @@ void UpdateBook()
     {
         while (true)
         {
-
             Console.WriteLine(
                 $"You have selected {selectedId}. Which column you want to update? Please write corresponding number.");
             Console.WriteLine(
@@ -183,6 +182,11 @@ void UpdateBook()
                 switch (whichColumnChange)
                 {
                     case 1:
+                        if (our_database.UpdateNameWriterCheck(newValue, selectedId, 0) == false)
+                        {
+                            break;
+                        }
+
                         our_database.UpdateData(selectedId, "BookName", newValue);
                         break;
 
@@ -191,6 +195,11 @@ void UpdateBook()
                         break;
 
                     case 3:
+                        if (our_database.UpdateNameWriterCheck(newValue, selectedId, 1) == false)
+                        {
+                            break;
+                        }
+
                         our_database.UpdateData(selectedId, "Writer", newValue);
                         break;
 

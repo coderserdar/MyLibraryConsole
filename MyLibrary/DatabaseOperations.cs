@@ -1,7 +1,9 @@
 using Microsoft.Data.Sqlite;
 
+#pragma warning disable CS8600 // Converting null literal or possible null value to non-nullable type.
 #pragma warning disable CS8602 // Dereference of a possibly null reference.
 #pragma warning disable CS8603 // Possible null reference return.
+#pragma warning disable CS8604 // Possible null reference argument.
 
 public class DatabaseOperations
 {
@@ -150,5 +152,34 @@ public class DatabaseOperations
 
         reader.Close();
         return true;
+    }
+
+    public bool UpdateNameWriterCheck(string newValue, int whichId, int operationMode)
+    {
+        //0 for book name 1 for writer update
+        if (operationMode == 0)
+        {
+            SqliteCommand controlBookNameCommand = new($"SELECT Writer from Book WHERE Id = {whichId}", sqlite_conn);
+            string writersName = controlBookNameCommand.ExecuteScalar().ToString();
+
+            if (CheckNameWriterAvailable(newValue, writersName) == false)
+            {
+                Console.WriteLine("This book is already on the database. Please try again.");
+                return false;
+            }
+            return true;
+        }
+        else
+        {
+            SqliteCommand controlWriterCommand = new($"SELECT BookName from Book WHERE Id = {whichId}", sqlite_conn);
+            string bookName = controlWriterCommand.ExecuteScalar().ToString();
+
+            if (CheckNameWriterAvailable(bookName, newValue) == false)
+            {
+                Console.WriteLine("This book is already on the database. Please try again.");
+                return false;
+            }
+            return true;
+        }
     }
 }
