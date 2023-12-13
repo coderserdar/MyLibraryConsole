@@ -45,43 +45,18 @@ while (result != 0)
             case 2:
 
                 #region Add Book
-                Console.WriteLine("Please enter name of the new book.");
-                string bookName = Console.ReadLine();
+                string bookName = "";
 
-                Console.WriteLine("Please enter category of the new book.");
-                string bookCategory = Console.ReadLine();
+                string bookCategory = "";
 
-                Console.WriteLine("Please enter writers name.");
-                string writer = Console.ReadLine();
+                string writer = "";
 
-                Console.WriteLine("Has book been read? Yes or No.");
-                string answer = Console.ReadLine();
+                int isBookRead = 0;
 
-                int isBookRead;
+                string bookDescription = "";
 
-                if (answer.ToLower() == "yes")
-                {
-                    isBookRead = 1;
-                }
-                else
-                {
-                    isBookRead = 0;
-                }
 
-                Console.WriteLine("Do you want to add description for the book?");
-                answer = Console.ReadLine();
-
-                string bookDescription;
-
-                if (answer.ToLower() == "yes")
-                {
-                    Console.WriteLine("Please enter description.");
-                    bookDescription = Console.ReadLine();
-                }
-                else
-                {
-                    bookDescription = "";
-                }
+                NewBook(ref bookName, ref bookCategory, ref writer, ref isBookRead, ref bookDescription);
 
                 Book newBook = new()
                 {
@@ -187,4 +162,42 @@ while (result != 0)
                 #endregion
         }
     }
+}
+
+static void NewBook(ref string bookName, ref string bookCategory, ref string writer, ref int isBookRead, ref string bookDescription)
+{
+    Console.WriteLine("Please enter name of the new book.");
+    bookName = Console.ReadLine();
+
+    Console.WriteLine("Please enter category of the new book.");
+    bookCategory = Console.ReadLine();
+
+    Console.WriteLine("Please enter writers name.");
+    writer = Console.ReadLine();
+
+    Console.WriteLine("Has book been read? Yes or No.");
+    string answer = Console.ReadLine();
+
+    if (answer.ToLower() == "yes")
+    {
+        isBookRead = 1;
+    }
+    else
+    {
+        isBookRead = 0;
+    }
+
+    Console.WriteLine("Do you want to add description for the book?");
+    answer = Console.ReadLine();
+
+    if (answer.ToLower() == "yes")
+    {
+        Console.WriteLine("Please enter description.");
+        bookDescription = Console.ReadLine();
+    }
+    else
+    {
+        bookDescription = "";
+    }
+
 }

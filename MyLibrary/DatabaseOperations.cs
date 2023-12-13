@@ -40,8 +40,8 @@ public class DatabaseOperations
             string bookName = (string)sqlite_datareader["BookName"];
             string bookCategory = (string)sqlite_datareader["BookCategory"];
             string writer = (string)sqlite_datareader["Writer"];
-            string bookDescription = sqlite_datareader["BookDescription"] != null ? "" : (string)sqlite_datareader["BookDescription"];
-            int activeStatus = sqlite_datareader["ActiveStatus"] != null ? 0 : (int)Convert.ToInt64(sqlite_datareader["ActiveStatus"]);
+            string bookDescription = sqlite_datareader["BookDescription"].GetType() == typeof(DBNull) ? "" : (string)sqlite_datareader["BookDescription"];
+            int activeStatus = sqlite_datareader["ActiveStatus"].GetType() == typeof(DBNull) ? 0 : (int)Convert.ToInt64(sqlite_datareader["ActiveStatus"]);
             int readUnread = (int)Convert.ToInt64(sqlite_datareader["ReadUnread"]);
 
             Console.WriteLine($"|{bookId,-7}" + $"|{LimitLength(bookName, 25),-31}" + $"|{LimitLength(bookCategory, 18),-23}" +
