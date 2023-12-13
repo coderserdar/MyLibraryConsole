@@ -43,7 +43,7 @@ while (result != 0)
                 continue;
 
             case 2:
-         
+
                 #region Add Book
                 Console.WriteLine("Please enter name of the new book.");
                 string bookName = Console.ReadLine();
@@ -94,7 +94,7 @@ while (result != 0)
 
                 our_database.InsertData(newBook);
                 continue;
-                #endregion
+            #endregion
 
             case 3:
 
@@ -107,56 +107,55 @@ while (result != 0)
                     Console.WriteLine(
                         $"You have selected {selectedId}. Which column you want to update? Please write corresponding number.");
                     Console.WriteLine(
-                        "Book Name: 1\nBook Category: 2\nBook Writer: 3\nBook Description: 4\nIs Book Active: 5\nIs Book Read: 6\nTo Cancel: 0\n");
+                        "Book Name: 1\nBook Category: 2\nBook Writer: 3\nBook Description: 4\nIs Book Active: 5\nIs Book Read: 6\nTo Cancel: 7\n");
 
-                    int whichColumnChange = Convert.ToInt32(Console.ReadLine());
-                    string newValue;
+                    var columnInput = Console.ReadLine();
+                    var whichColumnChange = -1;
+                    var isNumberColumn = Int32.TryParse(columnInput, out whichColumnChange);
 
-                    switch (whichColumnChange)
+                    if (!isNumberColumn)
                     {
-                        case 1:
-                            Console.WriteLine("Please write new value:");
-                            newValue = Console.ReadLine();
-                            our_database.UpdateData(selectedId, "BookName", newValue);
-                            break;
-
-                        case 2:
-                            Console.WriteLine("Please write new value:");
-                            newValue = Console.ReadLine();
-                            our_database.UpdateData(selectedId, "BookCategory", newValue);
-                            break;
-
-                        case 3:
-                            Console.WriteLine("Please write new value:");
-                            newValue = Console.ReadLine();
-                            our_database.UpdateData(selectedId, "Writer", newValue);
-                            break;
-
-                        case 4:
-                            Console.WriteLine("Please write new value:");
-                            newValue = Console.ReadLine();
-                            our_database.UpdateData(selectedId, "BookDescription", newValue);
-                            break;
-
-                        case 5:
-                            Console.WriteLine("Please write new value:");
-                            newValue = Console.ReadLine();
-                            our_database.UpdateData(selectedId, "ActiveStatus", newValue);
-                            break;
-
-                        case 6:
-                            Console.WriteLine("Please write new value:");
-                            newValue = Console.ReadLine();
-                            our_database.UpdateData(selectedId, "ReadUnread", newValue);
-                            break;
-
-                        case 0:
-                            break;
-
-                        default:
-                            Console.WriteLine("Please enter any given number.");
-                            continue;
+                        Console.WriteLine("That is not a valid number. Program will be terminated.");
+                        break;
                     }
+                    else if (isNumberColumn && (whichColumnChange <= 0 || whichColumnChange >= 7))
+                    {
+                        Console.WriteLine("That is not a valid number. Try again.");
+                    }
+                    else
+                    {
+                        Console.WriteLine("Please write new value:");
+                        string newValue = Console.ReadLine();
+
+                        switch (whichColumnChange)
+                        {
+                            case 1:
+                                our_database.UpdateData(selectedId, "BookName", newValue);
+                                break;
+
+                            case 2:
+                                our_database.UpdateData(selectedId, "BookCategory", newValue);
+                                break;
+
+                            case 3:
+                                our_database.UpdateData(selectedId, "Writer", newValue);
+                                break;
+
+                            case 4:
+                                our_database.UpdateData(selectedId, "BookDescription", newValue);
+                                break;
+
+                            case 5:
+                                our_database.UpdateData(selectedId, "ActiveStatus", newValue);
+                                break;
+
+                            case 6:
+                                our_database.UpdateData(selectedId, "ReadUnread", newValue);
+                                break;
+                        }
+                    }
+
+
                 }
                 else
                 {
@@ -165,7 +164,7 @@ while (result != 0)
                 }
 
                 continue;
-                #endregion
+            #endregion
 
             case 4:
 
@@ -174,10 +173,10 @@ while (result != 0)
                 int prefferedId = Convert.ToInt32(Console.ReadLine());
                 our_database.DeleteRow(prefferedId);
                 continue;
-                #endregion
+            #endregion
 
             case 5:
-                
+
                 #region Help Menu
                 Console.WriteLine("Possible Actions:\n" +
                                   "List all data from database: 1\n" +
