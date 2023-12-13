@@ -35,10 +35,12 @@ while (result != 0)
         switch (result)
         {
             case 0:
+
                 our_database.CloseConnection();
                 break;
 
             case 1:
+
                 our_database.ReadData();
                 continue;
 
@@ -46,15 +48,10 @@ while (result != 0)
 
                 #region Add Book
                 string bookName = "";
-
                 string bookCategory = "";
-
                 string writer = "";
-
                 int isBookRead = 0;
-
                 string bookDescription = "";
-
 
                 NewBook(ref bookName, ref bookCategory, ref writer, ref isBookRead, ref bookDescription);
 
@@ -130,7 +127,6 @@ while (result != 0)
                         }
                     }
 
-
                 }
                 else
                 {
@@ -199,5 +195,4 @@ static void NewBook(ref string bookName, ref string bookCategory, ref string wri
     {
         bookDescription = "";
     }
-
 }
